@@ -13,8 +13,6 @@
   <link rel="stylesheet" href="src/css/form.css">
   <link rel="stylesheet" href="src/css/signIn.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
-  <script defer src="src/js/script.js"></script>
-  <script defer src="src/js/gamesScripts/game.js" type="module"></script>
   <title>Login</title>
 </head>
 
@@ -23,19 +21,21 @@
     <div class="content">
       <div class="animationContainer">
         <div class="logo"></div>
-        <form id="signIn-form" method="post">
+        <form id="signIn-form" method="">
           <h1 class="title">Faça seu login</h1>
           <div class="fields">
             <div class="fields-group">
               <i class="fa-solid fa-user-astronaut"></i>
               <input name="email" type="email" placeholder="Digite seu username ou email">
+              <span class="error"></span>
             </div>
             <div class="fields-group">
               <i class="fa-solid fa-key"></i>
               <input name="password" type="password" placeholder="Digite sua senha">
+              <span class="error"></span>
             </div>
           </div>
-          <input class="btn-singIn" value="Entrar" type="submit">
+          <input class="btn-singIn" value="Entrar" type="button" onclick="goToHome()"/>
         </form>
         <span class="signUp">
           <a class="link-signUp" href="src/pages/signUp.html">Criar conta</a>
@@ -44,7 +44,8 @@
     </div>
     <div id="game-board"></div>
   </section>
-
+  <script defer type="module" src="src/js/singIn.js"></script>
+  <script defer src="src/js/gamesScripts/game.js" type="module"></script>
 </body>
 
 </html>

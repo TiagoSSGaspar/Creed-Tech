@@ -20,6 +20,21 @@
   --orange-000: #ff9000;
 }
 
+input, button {
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.error {
+  padding: 0;
+  color: #a92e2e;
+}
+
+.error.active {
+  padding: 0.4em;
+}
+
 @media (max-width: 1080px) {
   html {
     font-size: 93.75%;
