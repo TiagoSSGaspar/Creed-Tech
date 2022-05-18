@@ -8,7 +8,8 @@
   <script type="module" src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.esm.js"></script>
   <script nomodule src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.js"></script>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ionic/core/css/ionic.bundle.css" />
-  <title>Document</title>
+  <script type="module" src="../js/createStickyNotes.js"></script>
+  <title>Dashboard</title>
   <style>
     ion-slides {
       height: 100%;
@@ -56,28 +57,7 @@
 
         <ion-list>
 
-          <ion-slides pager="true">
-
-            <ion-slide>
-              <ion-card>
-                <ion-item>
-                  <ion-icon name="pin" slot="start"></ion-icon>
-                  <ion-label>ion-item in a card, icon left, button right</ion-label>
-                  <ion-buttons slot="end">
-                    <ion-button>
-                      <ion-icon slot="icon-only" color="success" name="pencil"></ion-icon>
-                    </ion-button>
-                    <ion-button>
-                      <ion-icon slot="icon-only" color="danger" name="trash"></ion-icon>
-                    </ion-button>
-                  </ion-buttons>
-                </ion-item>
-                <ion-card-content>
-                  This is content, without any paragraph or header tags,
-                  within an ion-card-content element.
-                </ion-card-content>
-              </ion-card>
-            </ion-slide>
+          <ion-slides id="slides-stickys" pager="true">
 
           </ion-slides>
 
@@ -89,14 +69,14 @@
 
           <ion-item>
             <ion-label position="floating">Digite a descrição do lembrete</ion-label>
-            <ion-input></ion-input>
+            <ion-input id="title-sticky"></ion-input>
           </ion-item>
 
           <ion-item>
             <ion-label position="floating">Digite os detalhes do lembrete</ion-label>
-            <ion-textarea></ion-textarea>
+            <ion-textarea id="description-sticky"></ion-textarea>
           </ion-item>
-          <ion-button expand="full" class="ion-margin-top" color="success" onclick="">Salvar</ion-button>
+          <ion-button expand="full" id="createSticky" class="ion-margin-top" color="success">Salvar</ion-button>
         </ion-content>
       </ion-modal>
     </div>
@@ -109,6 +89,16 @@
     function openFirst() {
       menuController.enable(true, 'first');
       menuController.open('first');
+    }
+  </script>
+  <script>
+    const slides = document.querySelector('ion-slides');
+
+    slides.options = {
+      initialSlide: 1,
+      speed: 700,
+      slidesPerView: 3,
+      spaceBetween: 0,
     }
   </script>
 </body>
