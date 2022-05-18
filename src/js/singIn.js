@@ -1,24 +1,38 @@
+import { loading } from "./singUp.js"
+import { fieldsValidation } from "./fieldsValidation.js";
+import { findByEmail } from "./utilsLocalStorage.js"
 
-const email = document.getElementById("email")?.value;
-const password = document.getElementById("password")?.value;
+const fields = document.querySelectorAll("[required]")
 
-function goToHome() {
+document.querySelector("#signIn-form")?.addEventListener("submit", event => {
+  event.preventDefault()
+  goToDashboard()
+})
 
+fieldsValidation(fields)
 
-/*   const user = findByEmail(email)
-  
-  if(!user) {
-    alert("Usuário não existi!")
-    return;
-  }
+function goToDashboard() {
+  const email = document.querySelector("#email")?.value;
+  const password = document.querySelector("#password")?.value;
 
-  if (password != user.password || email !== user.email) {
+  const user = findByEmail(email)
+
+  if (!user) {
     alert("Senha ou email incorretos")
     return;
   }
-  
-  alert("login ok!") */
-  
+
+  if (password !== user.password || email !== user.email) {
+    alert("Senha ou email incorretos")
+    return;
+  }
+
+  loading()
+  setTimeout(function () {
+    window.location.href = "src/pages/dashboard.html";
+  }, 5000);
+
 }
+
 
 

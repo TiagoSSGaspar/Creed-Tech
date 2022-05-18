@@ -3,17 +3,16 @@ import { findByEmail, saveUserLocalStorage } from "./utilsLocalStorage.js";
 
 const fields = document.querySelectorAll("[required]")
 
-document.querySelector("form")
-.addEventListener("submit", event => {
+document.querySelector("#signUp-form")?.addEventListener("submit", event => {
     event.preventDefault()
     createUser()
-})
+  })
 
 fieldsValidation(fields)
 
 export function loading() {
-  document.querySelector('.animationContainer').style.display = "none"
-  document.querySelector('.loading-page').style.display = "inherit"
+  document.querySelector('.container').style.display = "none"
+  document.querySelector('.loading-page').style.display = "flex"
 }
 
 function formattedUser() {
@@ -26,7 +25,7 @@ function formattedUser() {
     }
     newUser[data.name] = data.value
   })
-  Object.assign(newUser, {id: Math.random() , stickyNotes: [] })
+  Object.assign(newUser, { id: Math.random(), stickyNotes: [] })
 
   return newUser
 }
@@ -40,12 +39,12 @@ function createUser() {
     return;
   }
   saveUserLocalStorage(user)
-  
+
   loading()
 
-  setTimeout(function() {
+  setTimeout(function () {
     window.location.href = "dashboard.html";
-}, 5000);
+  }, 5000);
 
 
 }

@@ -60,6 +60,7 @@
 .fields-group input {
   background: transparent;
   flex: 1;
+  padding-right: 8px;
   color: #f4ede8;
   border: 0;
 }
