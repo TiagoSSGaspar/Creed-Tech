@@ -8,7 +8,6 @@
   <script type="module" src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.esm.js"></script>
   <script nomodule src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.js"></script>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ionic/core/css/ionic.bundle.css" />
-  <script type="module" src="../js/createStickyNotes.js"></script>
   <title>Dashboard</title>
   <style>
     ion-slides {
@@ -47,19 +46,20 @@
       </ion-content>
     </ion-menu>
 
-    <div class="ion-page ion-padding" id="main">
+    <div class="ion-page ion-padding ion-margin-horizontal" id="main">
       <ion-header>
         <ion-toolbar>
-          <ion-button onclick="openFirst()">Menu</ion-button>
+          <div class="ion-page ion-align-items-center" style="flex-direction: row;">
+            <ion-button onclick="openFirst()">Menu</ion-button>
+            <ion-title><span id="welcome"></span></ion-title>
+          </div>
         </ion-toolbar>
       </ion-header>
       <ion-content class="ion-padding">
 
         <ion-list>
 
-          <ion-slides id="slides-stickys" pager="true">
-
-          </ion-slides>
+          <ion-slides id="slides-stickys" pager="true"></ion-slides>
 
         </ion-list>
 
@@ -81,6 +81,7 @@
       </ion-modal>
     </div>
   </ion-app>
+
   <script type="module">
     import { menuController } from 'https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/index.esm.js';
     window.menuController = menuController;
@@ -97,10 +98,11 @@
     slides.options = {
       initialSlide: 1,
       speed: 700,
-      slidesPerView: 3,
+      slidesPerView: 2,
       spaceBetween: 0,
     }
   </script>
+  <script type="module" src="../js/createStickyNotes.js"></script>
 </body>
 
 </html>

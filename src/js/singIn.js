@@ -1,6 +1,6 @@
 import { loading } from "./singUp.js"
 import { fieldsValidation } from "./fieldsValidation.js";
-import { findByEmail } from "./utilsLocalStorage.js"
+import { findByEmail, saveUserSessionStorage } from "./utilsLocalStorage.js"
 
 const fields = document.querySelectorAll("[required]")
 
@@ -26,6 +26,8 @@ function goToDashboard() {
     alert("Senha ou email incorretos")
     return;
   }
+
+  saveUserSessionStorage(user)
 
   loading()
   setTimeout(function () {

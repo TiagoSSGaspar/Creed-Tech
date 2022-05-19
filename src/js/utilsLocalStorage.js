@@ -8,19 +8,70 @@ export function loadUsersLocalStorage() {
 }
 
 export function saveUserLocalStorage(newUser) {
-  const currentData = loadUsersLocalStorage()
+  const users = loadUsersLocalStorage()
 
-  const dataFormatted = [
-    ...currentData,
-    newUser
-  ];
+  const indexUser = users.findIndex(user => user.id === newUser.id);
 
-  localStorage.setItem(dataKey, JSON.stringify(dataFormatted));
+  if (indexUser <= 0) {
 
+    const dataFormatted = [
+      ...users,
+      newUser
+    ];
+
+    localStorage.setItem(dataKey, JSON.stringify(dataFormatted));
+
+  } else {
+
+    const userUpdated = {
+      id: newUser.id,
+      username: newUser.username,
+      email: newUser.email,
+      password: newUser.password,
+      stickyNotes: newUser.stickyNotes
+    }
+
+    users.splice(indexUser, 1, userUpdated)
+
+    localStorage.setItem(dataKey, JSON.stringify(users));
+
+  }
+
+}
+
+export function loadUserSessionStorage() {
+  const data = sessionStorage.getItem(dataKey);
+  const currentData = data ? JSON.parse(data) : {};
+
+  return currentData
+}
+
+export function saveUserSessionStorage(user) {
+
+  const dataFormatted = {
+    id: user.id,
+    username: user.username
+  }
+
+  sessionStorage.setItem(dataKey, JSON.stringify(dataFormatted));
 }
 
 export function findByEmail(email) {
   const users = loadUsersLocalStorage()
 
   return users.find(user => user.email === email)
+}
+
+export function findById(id) {
+  const users = loadUsersLocalStorage()
+
+  return users.find(user => user.id === id)
+}
+
+export function welcome() {
+  const title = document.querySelector("#welcome");
+  const user = loadUserSessionStorage()
+
+  title.innerHTML = `Olá! ${user.username}`
+
 }

@@ -1,5 +1,5 @@
 import { fieldsValidation } from "./fieldsValidation.js";
-import { findByEmail, saveUserLocalStorage } from "./utilsLocalStorage.js";
+import { findByEmail, saveUserLocalStorage, saveUserSessionStorage } from "./utilsLocalStorage.js";
 
 const fields = document.querySelectorAll("[required]")
 
@@ -39,7 +39,7 @@ function createUser() {
     return;
   }
   saveUserLocalStorage(user)
-
+  saveUserSessionStorage(user)
   loading()
 
   setTimeout(function () {
