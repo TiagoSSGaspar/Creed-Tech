@@ -2,12 +2,23 @@ import { findById, loadUserSessionStorage, loadUsersLocalStorage, saveUserLocalS
 
 const btnCreateSticky = document.querySelector("#createSticky")
 
-
 function checksExistsUser() {
   const { id } = loadUserSessionStorage()
   const user = findById(id)
 
   return user
+}
+
+async function presentAlert() {
+  const alert = document.createElement('ion-alert');
+  alert.cssClass = 'my-custom-class';
+
+  alert.message = 'Salvo com Sucesso!';
+  alert.buttons = ['OK'];
+
+  document.body.appendChild(alert);
+  await alert.present();
+
 }
 
 
@@ -34,6 +45,7 @@ function createSticky() {
   loadSticky()
   title.value = ""
   description.value = ""
+  presentAlert()
 
 }
 
@@ -112,13 +124,16 @@ function captureAction(event) {
 
 window.addEventListener("load", () => {
   const user = loadUserSessionStorage()
+  const progressBar = document.querySelector("ion-progress-bar")
 
   if (!user.id) {
     window.location.href = "/";
   } else {
     setTimeout(function () {
+      progressBar.style.display = "block"
       welcome()
       loadSticky()
+      progressBar.style.display = "none"
     }, 5000);
   }
 })

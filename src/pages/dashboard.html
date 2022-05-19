@@ -58,6 +58,7 @@
       </ion-header>
       <ion-content class="ion-padding">
 
+        <ion-progress-bar type="indeterminate"></ion-progress-bar>
         <ion-list>
 
           <ion-slides id="slides-stickys" pager="true"></ion-slides>
@@ -93,9 +94,9 @@
       menuController.open('first');
     }
     function logon() {
-        sessionStorage.removeItem("@CreedTech:users")
-        window.location.href = "/";
-      }
+      sessionStorage.removeItem("@CreedTech:users")
+      window.location.href = "/";
+    }
   </script>
   <script>
     const slides = document.querySelector('ion-slides');

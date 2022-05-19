@@ -7,16 +7,16 @@ export function loadUsersLocalStorage() {
   return currentData
 }
 
-export function saveUserLocalStorage(newUser) {
+export function saveUserLocalStorage(obj) {
   const users = loadUsersLocalStorage()
 
-  const indexUser = users.findIndex(user => user.id === newUser.id);
+  const indexUser = users.findIndex(user => user.id === obj.id);
 
-  if (indexUser <= 0) {
+  if (indexUser < 0) {
 
     const dataFormatted = [
       ...users,
-      newUser
+      obj
     ];
 
     localStorage.setItem(dataKey, JSON.stringify(dataFormatted));
@@ -24,11 +24,11 @@ export function saveUserLocalStorage(newUser) {
   } else {
 
     const userUpdated = {
-      id: newUser.id,
-      username: newUser.username,
-      email: newUser.email,
-      password: newUser.password,
-      stickyNotes: newUser.stickyNotes
+      id: obj.id,
+      username: obj.username,
+      email: obj.email,
+      password: obj.password,
+      stickyNotes: obj.stickyNotes
     }
 
     users.splice(indexUser, 1, userUpdated)
