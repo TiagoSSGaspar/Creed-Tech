@@ -1,10 +1,10 @@
 import {
   findById, findByStickyNoteCurrentUser,
-  loadUserSessionStorage, loadUsersLocalStorage, saveUserLocalStorage,
+  loadUserSessionStorage, saveUserLocalStorage,
   welcome
 } from "../js/utilsLocalStorage.js"
 
-const btnCreateStickyNote = document.querySelector("#createSticky")
+const btnCreateStickyNote = document.querySelector("#create-sticky-note")
 
 function checksExistsUser() {
   const { id } = loadUserSessionStorage()
@@ -25,11 +25,11 @@ async function presentAlert(msg) {
 
 }
 
-function createSticky() {
+function createStickyNote() {
   const user = checksExistsUser()
-  const idStickyNoteElement = +document.querySelector(".wrap-sticky").id
-  let title = document.querySelector("#title-sticky")
-  let description = document.querySelector("#description-sticky")
+  const idStickyNoteElement = +document.querySelector(".wrap-sticky-note").id
+  let title = document.querySelector("#title-sticky-note")
+  let description = document.querySelector("#description-sticky-note")
 
   if (!user) {
     alert("Algo saiu errado faça login!")
@@ -81,9 +81,9 @@ function createSticky() {
 
 function editSticky(stickyNote_id) {
   const currentStickyNote = findByStickyNoteCurrentUser(stickyNote_id)
-  const idStickyNoteElement = document.querySelector(".wrap-sticky")
-  const titleElement = document.querySelector("#title-sticky")
-  const descriptionElement = document.querySelector("#description-sticky")
+  const idStickyNoteElement = document.querySelector(".wrap-sticky-note")
+  const titleElement = document.querySelector("#title-sticky-note")
+  const descriptionElement = document.querySelector("#description-sticky-note")
 
   idStickyNoteElement.setAttribute("id", String(currentStickyNote.id))
   titleElement.value = currentStickyNote.title
@@ -179,16 +179,16 @@ window.addEventListener("load", () => {
 
 document.querySelector('ion-slides').addEventListener('click', captureAction)
 document.querySelector('#new-sticky-Note').addEventListener('click', () => {
-  const idStickyNoteElement = document.querySelector(".wrap-sticky")
-  let title = document.querySelector("#title-sticky")
-  let description = document.querySelector("#description-sticky")
+  const idStickyNoteElement = document.querySelector(".wrap-sticky-note")
+  let title = document.querySelector("#title-sticky-note")
+  let description = document.querySelector("#description-sticky-note")
 
-  idStickyNoteElement.removeAttribute("id")
+  idStickyNoteElement?.removeAttribute("id")
   title.value = ""
   description.value = ""
   openModal()
 })
 
-btnCreateStickyNote.onclick = createSticky;
+btnCreateStickyNote.onclick = createStickyNote;
 
 
