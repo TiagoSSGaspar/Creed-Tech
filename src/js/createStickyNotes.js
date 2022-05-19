@@ -1,6 +1,10 @@
-import { findById, loadUserSessionStorage, loadUsersLocalStorage, saveUserLocalStorage, welcome } from "../js/utilsLocalStorage.js"
+import {
+  findById, findByStickyNoteCurrentUser,
+  loadUserSessionStorage, loadUsersLocalStorage, saveUserLocalStorage,
+  welcome
+} from "../js/utilsLocalStorage.js"
 
-const btnCreateSticky = document.querySelector("#createSticky")
+const btnCreateStickyNote = document.querySelector("#createSticky")
 
 function checksExistsUser() {
   const { id } = loadUserSessionStorage()
@@ -9,11 +13,11 @@ function checksExistsUser() {
   return user
 }
 
-async function presentAlert() {
+async function presentAlert(msg) {
   const alert = document.createElement('ion-alert');
   alert.cssClass = 'my-custom-class';
 
-  alert.message = 'Salvo com Sucesso!';
+  alert.message = msg;
   alert.buttons = ['OK'];
 
   document.body.appendChild(alert);
@@ -21,10 +25,9 @@ async function presentAlert() {
 
 }
 
-
 function createSticky() {
   const user = checksExistsUser()
-
+  const idStickyNoteElement = +document.querySelector(".wrap-sticky").id
   let title = document.querySelector("#title-sticky")
   let description = document.querySelector("#description-sticky")
 
@@ -33,42 +36,78 @@ function createSticky() {
     return;
   }
 
-  const sticky = {
-    id: Math.random(),
-    title: title.value,
-    description: description.value,
-    created_at: new Date()
-  }
+  if (idStickyNoteElement) {
+    
+    const sticky = {
+      id: idStickyNoteElement,
+      title: title.value,
+      description: description.value,
+      created_at: new Date()
+    }
 
-  user.stickyNotes.push(sticky)
-  saveUserLocalStorage(user)
-  loadSticky()
+    const user = checksExistsUser();
+
+    const stickyNoteIndex = user.stickyNotes.findIndex(stickyNote => stickyNote.id === idStickyNoteElement);
+  
+    if (stickyNoteIndex < 0) {
+      alert("Não foi possível realizar esta operação!")
+      return;
+    }
+  
+    user.stickyNotes.splice(stickyNoteIndex, 1, sticky);
+    
+    saveUserLocalStorage(user)
+    loadStickyNotes()
+    presentAlert("Atualizado com sucesso!")
+
+  } else {
+
+    const sticky = {
+      id: Math.random(),
+      title: title.value,
+      description: description.value,
+      created_at: new Date()
+    }
+
+    user.stickyNotes.push(sticky)
+    
+    saveUserLocalStorage(user)
+    loadStickyNotes()
+    presentAlert("Seu lembrete foi criado com sucesso!")
+  }
   title.value = ""
   description.value = ""
-  presentAlert()
-
 }
 
-function editSticky(id) {
-  //const modalElement = document.createElement('ion-modal');
+function editSticky(stickyNote_id) {
+  const currentStickyNote = findByStickyNoteCurrentUser(stickyNote_id)
+  const idStickyNoteElement = document.querySelector(".wrap-sticky")
+  const titleElement = document.querySelector("#title-sticky")
+  const descriptionElement = document.querySelector("#description-sticky")
+
+  idStickyNoteElement.setAttribute("id", String(currentStickyNote.id))
+  titleElement.value = currentStickyNote.title
+  descriptionElement.value = currentStickyNote.description
+
+  openModal()
 }
 
 function deleteSticky(id) {
   const user = checksExistsUser();
 
-  const stickyIndex = user.stickyNotes.findIndex(todo => todo.id === id);
+  const stickyNoteIndex = user.stickyNotes.findIndex(stickyNote => stickyNote.id === id);
 
-  if (stickyIndex !== -1) {
+  if (stickyNoteIndex < 0) {
     alert("Não foi possível realizar esta operação!")
     return;
   }
 
-  user.stickyNotes.splice(stickyIndex, 1);
+  user.stickyNotes.splice(stickyNoteIndex, 1);
   saveUserLocalStorage(user)
 }
 
 
-function loadSticky() {
+function loadStickyNotes() {
   const user = checksExistsUser()
   const slides = document.querySelector(".swiper-wrapper")
 
@@ -81,24 +120,24 @@ function loadSticky() {
   })
 }
 
-function cardSticky(sticky) {
+function cardSticky(stickyNote) {
   return `
   <ion-slide>
     <ion-card>
       <ion-item readonly="true">
         <ion-icon name="pin" slot="start"></ion-icon>
-        <ion-label>${sticky.title}</ion-label>
+        <ion-label>${stickyNote.title}</ion-label>
         <ion-buttons slot="end">
-          <ion-button id="edit-${sticky.id}" >
+          <ion-button id="edit-${stickyNote.id}" >
             <ion-icon slot="icon-only" color="success" name="pencil"></ion-icon>
           </ion-button>
-          <ion-button id="delete-${sticky.id}">
+          <ion-button id="delete-${stickyNote.id}">
             <ion-icon slot="icon-only" color="danger" name="trash"></ion-icon>
           </ion-button>
         </ion-buttons>
       </ion-item>
       <ion-card-content clear-on-edit="true">
-        ${sticky.description}
+        ${stickyNote.description}
       </ion-card-content>
     </ion-card>
   </ion-slide>
@@ -115,8 +154,8 @@ function captureAction(event) {
     } else {
       const response = confirm(`Deseja realmente excluir`)
       if (response) {
-        deleteSticky(id)
-        loadSticky()
+        deleteSticky(+id)
+        loadStickyNotes()
       }
     }
   }
@@ -132,14 +171,24 @@ window.addEventListener("load", () => {
     setTimeout(function () {
       progressBar.style.display = "block"
       welcome()
-      loadSticky()
+      loadStickyNotes()
       progressBar.style.display = "none"
     }, 5000);
   }
 })
 
 document.querySelector('ion-slides').addEventListener('click', captureAction)
+document.querySelector('#new-sticky-Note').addEventListener('click', () => {
+  const idStickyNoteElement = document.querySelector(".wrap-sticky")
+  let title = document.querySelector("#title-sticky")
+  let description = document.querySelector("#description-sticky")
 
-btnCreateSticky.onclick = createSticky;
+  idStickyNoteElement.removeAttribute("id")
+  title.value = ""
+  description.value = ""
+  openModal()
+})
+
+btnCreateStickyNote.onclick = createSticky;
 
 

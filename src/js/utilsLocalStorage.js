@@ -68,6 +68,16 @@ export function findById(id) {
   return users.find(user => user.id === id)
 }
 
+export function findByStickyNoteCurrentUser(stickyNote_id) {
+  const {id} = loadUserSessionStorage()
+
+  const user = findById(id)
+
+  const note = user.stickyNotes.find(stickyNote => stickyNote.id === +stickyNote_id)
+  
+  return note
+}
+
 export function welcome() {
   const title = document.querySelector("#welcome");
   const user = loadUserSessionStorage()
