@@ -75,3 +75,4 @@ export function welcome() {
   title.innerHTML = `Olá! ${user.username}`
 
 }
+

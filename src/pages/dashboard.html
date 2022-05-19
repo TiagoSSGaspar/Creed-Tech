@@ -51,6 +51,7 @@
         <ion-toolbar>
           <div class="ion-page ion-align-items-center" style="flex-direction: row;">
             <ion-button onclick="openFirst()">Menu</ion-button>
+            <ion-button onclick="logon()" fill="clear" shape="round">Sair</ion-button>
             <ion-title><span id="welcome"></span></ion-title>
           </div>
         </ion-toolbar>
@@ -91,6 +92,10 @@
       menuController.enable(true, 'first');
       menuController.open('first');
     }
+    function logon() {
+        sessionStorage.removeItem("@CreedTech:users")
+        window.location.href = "/";
+      }
   </script>
   <script>
     const slides = document.querySelector('ion-slides');
